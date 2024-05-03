@@ -1,25 +1,24 @@
 import logo from './logo.svg';
+import {createTheme} from '@mui/material/styles'
 import './App.css';
+import { themeSettings } from './theme';
+import { CssBaseline, ThemeProvider } from '@mui/material';
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import {useSelector} from 'react-redux'
+import LoginPage from './pages/LoginPage';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const mode = useSelector(state=>state.mode)
+  const theme = createTheme(themeSettings(mode))
+  return(
+  <BrowserRouter>
+  <ThemeProvider theme={theme}>
+  <CssBaseline/>
+  <Routes>
+   <Route path='/login' element={<LoginPage/>}/>
+  </Routes>
+  </ThemeProvider>
+  </BrowserRouter>)
 }
 
 export default App;
