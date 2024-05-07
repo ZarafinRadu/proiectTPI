@@ -27,7 +27,7 @@ public class UserInfoService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        Optional<UserInfo> userDetail = repository.findByLastName(username);
+        Optional<UserInfo> userDetail = repository.findByUserName(username);
 
         // Converting userDetail to UserDetails
         return userDetail.map(UserInfoDetails::new)
@@ -36,11 +36,11 @@ public class UserInfoService implements UserDetailsService {
 
     public ResponseEntity<?> addUser(UserInfo userInfo) {
         // Check if a user already exists with the provided email
-        Optional<UserInfo> existingUser = repository.findByEmail(userInfo.getEmail());
+        Optional<UserInfo> existingUser = repository.findByUserName(userInfo.getUserName());
         if (existingUser.isPresent()) {
             // User with the email already exists, return an error response
             return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body("{\"message\": \"User with this email already exists\"}");
+                    .body("{\"message\": \"User with this user name already exists\"}");
         }
 
         // Encode the password before saving the user

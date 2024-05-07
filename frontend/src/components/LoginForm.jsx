@@ -63,8 +63,7 @@ const LoginForm = () => {
   };
 
   const registerSchema = yup.object().shape({
-    firstName: yup.string().required("required"),
-    lastName: yup.string().required("required"),
+    userName: yup.string().required("required"),
     email: yup.string().email("Invalid Email").required("required"),
     password: yup.string().required("required"),
     confirmPassword: yup
@@ -73,23 +72,23 @@ const LoginForm = () => {
       .oneOf([yup.ref("password"), null], "Passwords must match"),
   });
   const loginSchema = yup.object().shape({
-    email: yup.string().email("Invalid Email").required("required"),
+    userName: yup.string().required("required"),
     password: yup.string().required("required"),
   });
   const initialValuesRegister = {
-    firstName: "",
-    lastName: "",
+    userName:"",
     email: "",
     password: "",
     confirmPassword: "",
   };
 
   const initialValuesLogin = {
-    email: "",
+    userName: "",
     password: "",
   };
   const register = async (values, onSubmitProps) => {
     const copy = { ...values };
+    console.log(copy)
     delete copy.confirmPassword;
     const savedUserResponse = await fetch(
       "http://localhost:8080/auth/addNewUser",
@@ -113,7 +112,8 @@ const LoginForm = () => {
     onSubmitProps.resetForm();
   };
   const login = async (values, onSubmitProps) => {
-    const savedUserResponse = await fetch("http://localhost:9000/auth/login", {
+    console.log(values)
+    const savedUserResponse = await fetch("http://localhost:8080/auth/generateToken", {
       method: "POST",
       body: JSON.stringify(values),
       headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -121,19 +121,16 @@ const LoginForm = () => {
     const res = await savedUserResponse.json();
     console.log(res);
     if (res.token) {
-      if (res.foundUser.favorites.length > 0) {
-        dispatch(setInitialFavorites(res.foundUser.favorites));
-      }
       dispatch(
         setLogin({
-          user: res.foundUser,
           token: res.token,
         })
       );
-      navigate("/");
+      navigate("/home");
     } else if (res.message) {
       setOpen(true);
       errorMessage.current = res.message;
+      severity.current = 'error';
     }
   };
   const changePassword = async (values) => {
@@ -185,34 +182,19 @@ const LoginForm = () => {
           }) => (
             <form onSubmit={handleSubmit}>
               <Grid container spacing={4}>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12}>
                   <TextField
                     fullWidth
-                    label="First Name"
+                    label="User Name"
                     variant="outlined"
-                    name="firstName"
+                    name="userName"
                     onBlur={handleBlur}
-                    onChange={handleChange}
-                    value={values.firstName}
+                    onChange={(e) => setFieldValue('userName', e.target.value)}
+                    value={values.userName}
                     error={
-                      Boolean(touched.firstName) && Boolean(errors.firstName)
+                      Boolean(touched.userName) && Boolean(errors.userName)
                     }
-                    helperText={touched.firstName && errors.firstName}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    label="Last Name"
-                    variant="outlined"
-                    name="lastName"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    value={values.lastName}
-                    error={
-                      Boolean(touched.lastName) && Boolean(errors.lastName)
-                    }
-                    helperText={touched.lastName && errors.lastName}
+                    helperText={touched.userName && errors.userName}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -362,14 +344,14 @@ const LoginForm = () => {
                   <Grid item xs={12}>
                     <TextField
                       fullWidth
-                      label="Email"
+                      label="User Name"
                       variant="outlined"
-                      name="email"
+                      name="userName"
                       onBlur={handleBlur}
                       onChange={handleChange}
-                      value={values.login_email}
-                      error={Boolean(touched.email) && Boolean(errors.email)}
-                      helperText={touched.email && errors.email}
+                      value={values.userName}
+                      error={Boolean(touched.userName) && Boolean(errors.userName)}
+                      helperText={touched.userName && errors.userName}
                     />
                   </Grid>
                   <Grid item xs={12}>

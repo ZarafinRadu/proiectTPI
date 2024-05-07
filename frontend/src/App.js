@@ -6,6 +6,7 @@ import { CssBaseline, ThemeProvider } from '@mui/material';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import {useSelector} from 'react-redux'
 import LoginPage from './pages/LoginPage';
+import HomePage from './pages/HomePage';
 
 function App() {
   const mode = useSelector(state=>state.mode)
@@ -15,7 +16,8 @@ function App() {
   <ThemeProvider theme={theme}>
   <CssBaseline/>
   <Routes>
-   <Route path='/login' element={<LoginPage/>}/>
+   <Route path='/' element={<LoginPage/>}/>
+   <Route path='/home' element={<HomePage/>}/>
   </Routes>
   </ThemeProvider>
   </BrowserRouter>)
