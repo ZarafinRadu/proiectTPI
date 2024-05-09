@@ -71,8 +71,13 @@ export default function BasicModal({open, setOpen}) {
               error={formik.touched.type && Boolean(formik.errors.type)}
               helperText={formik.touched.type && formik.errors.type}
             />
+<<<<<<< HEAD
           </form>
           <Button 
+=======
+            
+            <Button 
+>>>>>>> 235a2fa1f1d21d99d4d4e4eca017068f6a8e9a5d
               type="submit" 
               variant="contained" 
               sx={{marginTop:'15px'}}
