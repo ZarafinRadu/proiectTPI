@@ -32,7 +32,7 @@ public class MockLocationGenerator {
         this.vehicleRepository = vehicleRepository;
     }
 
-    @Scheduled(fixedRate = 1000) // Update every second
+    @Scheduled(fixedRate = 10000000) // Update every second
     public void generateMockLocations() {
         // Get current waypoint
         LatLng currentWaypoint = route.get(currentIndex);

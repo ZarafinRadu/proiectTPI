@@ -12,8 +12,25 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import BasicModal from './Modal';
+import { Navigate } from 'react-router-dom';
 
 export default function AppDrawer({open, setOpen}) {
+  function App() {
+    const [mapOpen, setMapOpen] = useState(false);
+  
+    const handleOpenMap = () => {
+      setMapOpen(true);
+    };
+  
+    return (
+      <div>
+        {!mapOpen && (
+          <button onClick={handleOpenMap}>Open Map</button>
+        )}
+        {mapOpen && <Map />}
+      </div>
+    );
+  }
 
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
@@ -24,11 +41,11 @@ export default function AppDrawer({open, setOpen}) {
   const DrawerList = (
     <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
       <List>
-        {['Add a vehicle', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem key={text} disablePadding onClick={text==='Add a vehicle'?()=>setModalOpen(true):null}>
+        {['Manage Vehicle', 'Manage User', 'Manage Route', 'Map'].map((text, index) => (
+          <ListItem key={text} disablePadding onClick={text==='Manage Vehicle'?()=>setModalOpen(true):text==='Manage User'?()=>setModalOpen(true):text==='Manage Route'?()=>setModalOpen(true):text==='Map'?()=>Navigate("/MapPage"):null}>
             <ListItemButton>
               <ListItemIcon>
-                {text==='Add a vehicle' ? <LocalShippingIcon/> : <InboxIcon />}
+                {text==='Manage Vehicle' ? <LocalShippingIcon/> : <InboxIcon />}
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>

@@ -22,7 +22,7 @@ export const themeSettings = (mode) => {
               },
               background: {
                 default: "#e2dada",
-                paper: "#ebedf3",
+                paper: "#BD4242",
               },
             }),
       },

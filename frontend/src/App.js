@@ -7,6 +7,7 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import {useSelector} from 'react-redux'
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
+import MapPage from './pages/MapPage';
 
 function App() {
   const mode = useSelector(state=>state.mode)
@@ -18,6 +19,7 @@ function App() {
   <Routes>
    <Route path='/' element={<LoginPage/>}/>
    <Route path='/home' element={<HomePage/>}/>
+   <Route path='/map' element={<MapPage/>}/>
   </Routes>
   </ThemeProvider>
   </BrowserRouter>)

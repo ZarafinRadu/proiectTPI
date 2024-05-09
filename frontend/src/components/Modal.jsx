@@ -59,71 +59,26 @@ export default function BasicModal({open, setOpen}) {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ marginBottom:'10px'}}>
-            Add a vehicle
+            Choose option
           </Typography>
           <form onSubmit={formik.handleSubmit}>
-            {/* <BasicSelect 
-              arr={['Truck', 'Van']} 
+            <BasicSelect 
+              arr={['Add', 'Remove', 'Edit']} 
               label='Type' 
               name="type"
               value={formik.values.type}
               onChange={formik.handleChange}
               error={formik.touched.type && Boolean(formik.errors.type)}
               helperText={formik.touched.type && formik.errors.type}
-            /> */}
-            <TextField 
-              id="serialNumber" 
-              name="serialNumber"
-              label="Serial Number" 
-              variant="outlined" 
-              sx={{ marginTop:'15px'}} 
-              fullWidth
-              value={formik.values.serialNumber}
-              onChange={formik.handleChange}
-              error={formik.touched.serialNumber && Boolean(formik.errors.serialNumber)}
-              helperText={formik.touched.serialNumber && formik.errors.serialNumber}
             />
-            <TextField 
-              id="make" 
-              name="make"
-              label="Make" 
-              variant="outlined" 
-              sx={{ marginTop:'15px'}} 
-              fullWidth
-              value={formik.values.make}
-              onChange={formik.handleChange}
-              error={formik.touched.make && Boolean(formik.errors.make)}
-              helperText={formik.touched.make && formik.errors.make}
-            />
-            <TextField 
-              id="model" 
-              name="model"
-              label="Model" 
-              variant="outlined" 
-              sx={{ marginTop:'15px'}} 
-              fullWidth
-              value={formik.values.model}
-              onChange={formik.handleChange}
-              error={formik.touched.model && Boolean(formik.errors.model)}
-              helperText={formik.touched.model && formik.errors.model}
-            />
-            {/* <BasicSelect 
-              arr={yearsArray} 
-              label='Year'
-              name="year"
-              value={formik.values.year}
-              onChange={formik.handleChange}
-              error={formik.touched.year && Boolean(formik.errors.year)}
-              helperText={formik.touched.year && formik.errors.year}
-            /> */}
-            <Button 
+          </form>
+          <Button 
               type="submit" 
               variant="contained" 
               sx={{marginTop:'15px'}}
             >
               Submit
             </Button>
-          </form>
         </Box>
       </Modal>
     </div>
