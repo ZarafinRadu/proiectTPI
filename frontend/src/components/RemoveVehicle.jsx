@@ -1,83 +1,55 @@
-import { TextField, Button, Grid } from "@mui/material"
+import { TextField} from "@mui/material"
 import BasicSelect from "./Select"
 import { useState } from "react";
+import { useEffect } from "react";
+import { Grid, Card, CardContent, Typography, Button } from '@mui/material';
 export default function RemoveVehicle(){
-    const currentYear = new Date().getFullYear();
-    const yearsArray = Array.from({ length: currentYear - 2004 }, (_, index) => currentYear - index);
-    const [vehicle,setVehicle] = useState({})
-    const handleSubmit = async (e) =>{
-        e.preventDefault()
-        console.log(vehicle)
-        const response = await fetch('http://localhost:8080/api/vehicle/register',{
-            method:'DELETE',
-            headers: { "Content-type": "application/json; charset=UTF-8" },
-            body:JSON.stringify(vehicle)
-        })
-        const res = await response.json()
-        console.log(res)
-    }
-    return<form onSubmit={(e)=>handleSubmit(e)}> 
-    <Grid>
-        <Grid item xs={12}>
-    <BasicSelect 
-             vehicle = {vehicle}
-             setVehicle = {setVehicle}
-              arr={['Truck','Van']} 
-              label='vehicleType' 
-              name="vehicleType"
-            />
+    const [vehicles,setVehicles] = useState([])
+    useEffect(()=>{
+        const fetchVehicles = async () =>{
+            const response = await fetch('http://localhost:8080/api/vehicle/locations')
+            const res = await response.json();
+            setVehicles(res)
+            console.log(res)
+        }
+        fetchVehicles()
+    },[])
+    const handleRemove = async (id) => {
+        try {
+            const response = await fetch(`http://localhost:8080/api/vehicle/${id}/remove`,{
+                method:'DELETE',
+                headers: { "Content-type": "application/json; charset=UTF-8" }
+            });
+            if (response.ok) {
+                const updatedVehicles = await response.json(); // Assuming the server sends back the updated list
+                setVehicles(updatedVehicles);
+            } else {
+                console.error('Error removing vehicle:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error removing vehicle:', error);
+        }
+    };
+    
+    return(
+        <Grid container spacing={2}>
+      {vehicles.map((vehicle, index) => (
+        <Grid item key={index} xs={12} sm={6} md={4}>
+          <Card>
+            <CardContent>
+              <Typography variant="h6" gutterBottom>
+                {vehicle.vehicleType} - {vehicle.make} {vehicle.model} ({vehicle.year})
+              </Typography>
+              <Typography variant="body2" color="textSecondary">
+                Serial Number: {vehicle.serialNumber}
+              </Typography>
+              <Button variant="outlined" color="error" onClick={() => handleRemove(vehicle.id)}>
+                    Remove
+                </Button>
+            </CardContent>
+          </Card>
         </Grid>
-        <Grid item xs={12}>
-    <TextField 
-    onChange={(e)=>setVehicle({...vehicle,serialNumber:e.target.value})}
-    fullWidth
-              id="serialNumber" 
-              name="serialNumber"
-              label="Serial Number" 
-              variant="outlined" 
-              sx={{ marginTop:'15px'}} 
-            />
-        </Grid>
-        <Grid item xs={12}>
-            <TextField 
-            onChange={(e)=>setVehicle({...vehicle,make:e.target.value})}
-            fullWidth
-              id="make" 
-              name="make"
-              label="Make" 
-              variant="outlined" 
-              sx={{ marginTop:'15px'}} 
-            />
-        </Grid>
-        <Grid item xs={12}>
-            <TextField 
-            onChange={(e)=>setVehicle({...vehicle,model:e.target.value})}
-            fullWidth
-              id="model" 
-              name="model"
-              label="Model" 
-              variant="outlined" 
-              sx={{ marginTop:'15px', marginBottom:'15px'}} 
-            />
-        </Grid>
-        <Grid item xs={12}>
-             <BasicSelect 
-              vehicle = {vehicle}
-              setVehicle = {setVehicle}
-              arr={yearsArray} 
-              label='year'
-              name="year"
-            /> 
-        </Grid>
-        <Grid item xs={12}>
-            <Button 
-              type="submit" 
-              variant="contained" 
-              sx={{marginTop:'15px'}}
-            >
-              Submit
-            </Button>
-        </Grid>
+      ))}
     </Grid>
-    </form>
+    )
 }

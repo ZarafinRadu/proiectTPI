@@ -6,11 +6,13 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import AddVehicle from '../components/AddVehicle';
 import RemoveVehicle from '../components/RemoveVehicle';
+import Navbar from '../components/Navbar';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
 
   return (
+    
     <div
       role="tabpanel"
       hidden={value !== index}
@@ -24,6 +26,7 @@ function CustomTabPanel(props) {
         </Box>
       )}
     </div>
+    
   );
 }
 
@@ -48,6 +51,8 @@ export default function ManageVehiclePage() {
   };
 
   return (
+    <>
+    <Navbar/>
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
@@ -62,5 +67,6 @@ export default function ManageVehiclePage() {
         <RemoveVehicle/>
       </CustomTabPanel>
     </Box>
+    </>
   );
 }

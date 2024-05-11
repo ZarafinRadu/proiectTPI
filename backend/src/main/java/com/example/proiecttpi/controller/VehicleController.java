@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -39,9 +40,16 @@ public class VehicleController {
 
     // Remove device
     @DeleteMapping("/{vehicleId}/remove")
-    public ResponseEntity<?> removeVehicle(@PathVariable("vehicleId") Long deviceId) {
-        vehicleService.removeVehicle(deviceId);
-        return ResponseEntity.ok().build();
+    @CrossOrigin
+    public ResponseEntity<?> removeVehicle(@PathVariable("vehicleId") Long vehicleId) {
+        try {
+            vehicleService.removeVehicle(vehicleId);
+            List<Vehicle> updatedVehicles = vehicleService.getAllVehicleLocations();
+            return ResponseEntity.ok().body(updatedVehicles);
+        } catch (Exception e) {
+            Map<String, String> errorResponse = Collections.singletonMap("message", "Error deleting vehicle");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonList(errorResponse));
+        }
     }
 
     @GetMapping("/locations")
