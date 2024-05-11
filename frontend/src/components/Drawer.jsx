@@ -12,48 +12,21 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import BasicModal from './Modal';
-<<<<<<< HEAD
-import { Navigate } from 'react-router-dom';
-
-export default function AppDrawer({open, setOpen}) {
-  function App() {
-    const [mapOpen, setMapOpen] = useState(false);
-  
-    const handleOpenMap = () => {
-      setMapOpen(true);
-    };
-  
-    return (
-      <div>
-        {!mapOpen && (
-          <button onClick={handleOpenMap}>Open Map</button>
-        )}
-        {mapOpen && <Map />}
-      </div>
-    );
-  }
-
-=======
 import { useNavigate } from 'react-router-dom';
 
 export default function AppDrawer({open, setOpen}) {
   const navigate = useNavigate();
->>>>>>> 235a2fa1f1d21d99d4d4e4eca017068f6a8e9a5d
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
   };
 
   const [modalOpen,setModalOpen] = React.useState(false)
-
+  let arr;
   const DrawerList = (
     <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
       <List>
         {['Manage Vehicle', 'Manage User', 'Manage Route', 'Map'].map((text, index) => (
-<<<<<<< HEAD
-          <ListItem key={text} disablePadding onClick={text==='Manage Vehicle'?()=>setModalOpen(true):text==='Manage User'?()=>setModalOpen(true):text==='Manage Route'?()=>setModalOpen(true):text==='Map'?()=>Navigate("/MapPage"):null}>
-=======
-          <ListItem key={text} disablePadding onClick={text==='Manage Vehicle'?()=>setModalOpen(true):text==='Manage User'?()=>setModalOpen(true):text==='Manage Route'?()=>setModalOpen(true):text==='Map'?()=>navigate("/map"):null}>
->>>>>>> 235a2fa1f1d21d99d4d4e4eca017068f6a8e9a5d
+          <ListItem key={text} disablePadding onClick={text==='Manage Vehicle'?()=>navigate('/manage/vehicle'):text==='Manage User'?()=>setModalOpen(true):text==='Manage Route'?()=>setModalOpen(true):text==='Map'?()=>navigate("/map"):null}>
             <ListItemButton>
               <ListItemIcon>
                 {text==='Manage Vehicle' ? <LocalShippingIcon/> : <InboxIcon />}
